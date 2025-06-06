@@ -1,0 +1,33 @@
+.modal__image {
+  width: 100%;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal__close_image {
+  filter: brightness(0) invert(2);
+}
+
+.modal__caption {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 12px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.modal__weather {
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.modal__footer {
+  margin: 20px 0 32px 32px;
+}
+
+.modal__content_type_image {
+  padding: 0;
+}
