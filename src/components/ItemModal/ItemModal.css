@@ -28,6 +28,11 @@
   margin: 20px 0 32px 32px;
 }
 
-.modal__content_type_image {
-  padding: 0;
+.modal__container {
+  background-color: #fff;
+  position: relative;
+  max-width: 496px;
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 20px;
 }

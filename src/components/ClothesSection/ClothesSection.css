@@ -1,0 +1,27 @@
+.clothes__header {
+  display: flex;
+  gap: 20px;
+  height: 25px;
+  margin: 20px 0 16px;
+}
+
+.clothes__title {
+  margin: 0;
+}
+
+.clothes__add-btn {
+  height: 25px;
+  font-weight: 700;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.6);
+  border: none;
+}
+
+.clothes-section__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  gap: 21px;
+}
