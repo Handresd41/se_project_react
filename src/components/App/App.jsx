@@ -8,7 +8,7 @@ import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
 import { filterWeatherData, getWeather } from "../../utils/weatherApi";
 import { coordinates, APIkey } from "../../utils/constants";
-import CurrentTemperatureUnitCotext from "../../utils/CurrentTemperatureUnitContext";
+import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import { defaultClothingItems } from "../../utils/constants";
 import { getItems } from "../../utils/api";
@@ -70,7 +70,7 @@ function App() {
   }, []);
 
   return (
-    <CurrentTemperatureUnitCotext.Provider
+    <CurrentTemperatureUnitContext.Provider
       value={{ currentTemperatureUnit, handleToggleSwitchChange }}
     >
       <div className="page">
@@ -112,7 +112,7 @@ function App() {
           onClose={closeActiveModal}
         />
       </div>
-    </CurrentTemperatureUnitCotext.Provider>
+    </CurrentTemperatureUnitContext.Provider>
   );
 }
 
