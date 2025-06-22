@@ -1,0 +1,35 @@
+.modal__popup {
+  width: 670px;
+  height: 280px;
+  background-color: #fff;
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 20px;
+}
+
+.modal__popup_title {
+  width: 350px;
+  text-align: center;
+  position: relative;
+  top: 60px;
+  left: 151px;
+}
+
+.modal__delete-btn {
+  position: absolute;
+  bottom: 108px;
+  right: 266px;
+  color: #ff4d00;
+  border: none;
+  font-size: 20px;
+  background-color: transparent;
+}
+
+.modal__cancel {
+  position: absolute;
+  bottom: 60px;
+  left: 304px;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+}

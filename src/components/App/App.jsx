@@ -10,6 +10,7 @@ import { filterWeatherData, getWeather } from "../../utils/weatherApi";
 import { coordinates, APIkey } from "../../utils/constants";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
+import DeleteItemModal from "../DeleteItemModal/DeleteItemModal";
 import { defaultClothingItems } from "../../utils/constants";
 import { getItems } from "../../utils/api";
 
@@ -26,6 +27,8 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -42,6 +45,7 @@ function App() {
 
   const closeActiveModal = () => {
     setActiveModal("");
+    setIsDeleteModalOpen(false);
   };
 
   const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
@@ -50,6 +54,23 @@ function App() {
       ...prevItems,
     ]);
     closeActiveModal();
+  };
+
+  const handleDeleteItemModal = (selectedCard) => {
+    closeActiveModal();
+    setIsDeleteModalOpen(true);
+    setItemToDelete({
+      _id: selectedCard._id,
+      name: selectedCard.name,
+      weather: selectedCard.weather,
+      link: selectedCard.link,
+    });
+  };
+
+  const handleDeleteSuccess = (deletedItemId) => {
+    setClothingItems(
+      clothingItems.filter((item) => item._id !== deletedItemId)
+    );
   };
 
   useEffect(() => {
@@ -110,6 +131,13 @@ function App() {
           activeModal={activeModal}
           card={selectedCard}
           onClose={closeActiveModal}
+          onDeleteClick={handleDeleteItemModal}
+        />
+        <DeleteItemModal
+          isOpen={isDeleteModalOpen}
+          onClose={closeActiveModal}
+          itemToDelete={itemToDelete}
+          onDeleteSuccess={handleDeleteSuccess}
         />
       </div>
     </CurrentTemperatureUnitContext.Provider>

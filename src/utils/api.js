@@ -6,4 +6,10 @@ function getItems() {
   });
 }
 
-export { getItems };
+function deleteItem(id) {
+  return fetch(`${baseUrl}/items/${id}`, { method: "DELETE" }).then((res) => {
+    return res.ok ? res.json() : Promise.reject(`ERROR: ${res.status}`);
+  });
+}
+
+export { getItems, deleteItem };

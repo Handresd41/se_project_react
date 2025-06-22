@@ -36,3 +36,13 @@
   width: 100%;
   border-radius: 20px;
 }
+
+.modal__delete {
+  position: absolute;
+  right: 32px;
+  bottom: 68px;
+  border: none;
+  background-color: transparent;
+  color: #ff4d00;
+  font-size: 20px;
+}
