@@ -12,4 +12,16 @@ function deleteItem(id) {
   });
 }
 
-export { getItems, deleteItem };
+function addItem(item) {
+  return fetch(`${baseUrl}/items`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(item),
+  }).then((res) => {
+    return res.ok ? res.json() : Promise.reject(`ERROR: ${res.status}`);
+  });
+}
+
+export { getItems, deleteItem, addItem };
