@@ -6,11 +6,11 @@ import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import ItemModal from "../ItemModal/ItemModal";
 import Profile from "../Profile/Profile";
-import { filterWeatherData, getWeather } from "../../utils/weatherApi";
-import { coordinates, APIkey } from "../../utils/constants";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import DeleteItemModal from "../DeleteItemModal/DeleteItemModal";
+import { filterWeatherData, getWeather } from "../../utils/weatherApi";
+import { coordinates, APIkey } from "../../utils/constants";
 import { defaultClothingItems } from "../../utils/constants";
 import { addItem, getItems } from "../../utils/api";
 
@@ -90,6 +90,21 @@ function App() {
       })
       .catch(console.error);
   }, []);
+
+  useEffect(() => {
+    if (!(activeModal || isDeleteModalOpen)) return;
+    const handleEscClose = (e) => {
+      if (e.key === "Escape") {
+        closeActiveModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscClose);
+
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, [activeModal, isDeleteModalOpen]);
 
   return (
     <CurrentTemperatureUnitContext.Provider
