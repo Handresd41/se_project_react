@@ -13,7 +13,13 @@ function deleteItem(id) {
 }
 
 function addItem(item) {
-  return fetch(`${baseUrl}/items`).then(checkResponse);
+  return fetch(`${baseUrl}/items`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(item),
+  }).then(checkResponse);
 }
 
 export { getItems, deleteItem, addItem };
