@@ -3,14 +3,16 @@ import "./Header.css";
 import logo from "../../assets/wtwr-logo.svg";
 import avatar from "../../assets/avatar.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useContext } from "react";
 
-function Header({ handleAddClick, weatherData }) {
+function Header({ handleAddClick, weatherData, onLogin, onRegister, onClose }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
 
-  const username = "Terrence Tegegne";
+  const { currentUser } = useContext(CurrentUserContext);
 
   return (
     <header className="header">
@@ -21,19 +23,45 @@ function Header({ handleAddClick, weatherData }) {
         {currentDate}, {weatherData.city}
       </p>
       <ToggleSwitch />
-      <button
-        onClick={handleAddClick}
-        type="button"
-        className="header__add-clothes-btn"
-      >
-        + Add Clothes
-      </button>
-      <Link to="/profile" className="header__link">
-        <div className="header__user-container">
-          <p className="header__user-name">{username}</p>
-          <img src={avatar} alt="Terrence Tegegne" className="header__avatar" />
+      {!currentUser && (
+        <div className="header__user-actions">
+          <div className="header__buttons">
+            <button className="header__register-btn" onClick={onRegister}>
+              Sign Up
+            </button>
+            <button className="header__login-btn" onClick={onLogin}>
+              Log In
+            </button>
+          </div>
         </div>
-      </Link>
+      )}
+      {currentUser && (
+        <div className="header__user-info">
+          <button
+            onClick={handleAddClick}
+            type="button"
+            className="header__add-clothes-btn"
+          >
+            + Add Clothes
+          </button>
+          <div className="header__user-container">
+            <p className="header__user-name">{currentUser.name || "Guest"}</p>
+            <div className="header__avatar-container">
+              {currentUser.avatar ? (
+                <img
+                  src={currentUser.avatar}
+                  alt={currentUser.name || "User Avatar"}
+                  className="header__avatar"
+                />
+              ) : (
+                <p className="header__avatar-placeholder">
+                  {currentUser.name ? currentUser.name[0].toUpperCase() : "U"}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

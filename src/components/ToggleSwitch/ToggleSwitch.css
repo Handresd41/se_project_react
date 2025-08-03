@@ -8,6 +8,11 @@
   overflow: hidden;
   position: relative;
 }
+
+.toggle-switch_container {
+  margin: 0 0 0 810px;
+}
+
 .toggle-switch__checkbox {
   opacity: 0;
 }
