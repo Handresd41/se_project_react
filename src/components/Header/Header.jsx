@@ -5,6 +5,7 @@ import avatar from "../../assets/avatar.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useContext } from "react";
+import Profile from "../Profile/Profile";
 
 function Header({ handleAddClick, weatherData, onLogin, onRegister, onClose }) {
   const currentDate = new Date().toLocaleString("default", {
@@ -19,6 +20,7 @@ function Header({ handleAddClick, weatherData, onLogin, onRegister, onClose }) {
       <Link to="/">
         <img className="header__logo" src={logo} alt="Header Icon" />
       </Link>
+      <Profile />
       <p className="header__date-and-location">
         {currentDate}, {weatherData.city}
       </p>
