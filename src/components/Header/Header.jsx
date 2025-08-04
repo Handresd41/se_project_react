@@ -20,7 +20,6 @@ function Header({ handleAddClick, weatherData, onLogin, onRegister, onClose }) {
       <Link to="/">
         <img className="header__logo" src={logo} alt="Header Icon" />
       </Link>
-      <Profile />
       <p className="header__date-and-location">
         {currentDate}, {weatherData.city}
       </p>

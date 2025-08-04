@@ -12,12 +12,14 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import DeleteItemModal from "../DeleteItemModal/DeleteItemModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import { filterWeatherData, getWeather } from "../../utils/weatherApi";
 import { coordinates, APIkey } from "../../utils/constants";
 import { defaultClothingItems } from "../../utils/constants";
 import { addItem, getItems } from "../../utils/api";
 import { checkResponse } from "../../utils/api";
 import { baseUrl } from "../../utils/api";
+import { addCardLike, removeCardLike } from "../../utils/api";
 
 function App() {
   const [WeatherData, setWeatherData] = useState({
@@ -42,8 +44,19 @@ function App() {
       name: userData.name || "",
       avatar: userData.avatar || "",
       email: userData.email || "",
+      _id: userData._id || "",
     });
     setIsLoggedIn(true);
+    closeActiveModal();
+  };
+
+  const handleModalOpen = (modalType) => {
+    setActiveModal(modalType);
+    if (modalType === "edit-profile") {
+      setSelectedCard(currentUser);
+    } else {
+      setSelectedCard({});
+    }
   };
 
   const handleToggleSwitchChange = () => {
@@ -98,6 +111,25 @@ function App() {
   const handleRegister = (token) => {
     localStorage.setItem("jwt", token);
     closeActiveModal();
+  };
+
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    !isLiked
+      ? addCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err))
+      : removeCardLike(id, token)
+          .then((updatedCard) => {
+            setClothingItems((cards) =>
+              cards.map((item) => (item._id === id ? updatedCard : item))
+            );
+          })
+          .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -198,10 +230,19 @@ function App() {
                   <Profile
                     clothingItems={clothingItems}
                     onCardClick={handleCardClick}
+                    onModalOpen={handleModalOpen}
+                    onlikeClick={handleCardLike}
                   />
                 }
               />
             </Routes>
+
+            <EditProfileModal
+              isOpen={activeModal === "edit-profile"}
+              onClose={closeActiveModal}
+              title="Edit Profile"
+              onSubmit={handleCurrentUserChange}
+            />
 
             <Footer />
           </div>

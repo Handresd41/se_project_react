@@ -13,3 +13,30 @@
 .sidebar__username {
   height: 25px;
 }
+
+.sidebar__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: absolute;
+  top: 199px;
+}
+
+.sidebar__EditProfileBtn {
+  border: none;
+  height: 25px;
+  font-weight: bold;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.sidebar__logout-btn {
+  border: none;
+  height: 25px;
+  width: 65px;
+  font-weight: bold;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+}
