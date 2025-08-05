@@ -7,7 +7,15 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useContext } from "react";
 import Profile from "../Profile/Profile";
 
-function Header({ handleAddClick, weatherData, onLogin, onRegister, onClose }) {
+function Header({
+  handleAddClick,
+  weatherData,
+  onLogin,
+  onRegister,
+  onClose,
+  navigate,
+  isLoggedIn,
+}) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -46,7 +54,14 @@ function Header({ handleAddClick, weatherData, onLogin, onRegister, onClose }) {
             + Add Clothes
           </button>
           <div className="header__user-container">
-            <p className="header__user-name">{currentUser.name || "Guest"}</p>
+            <button
+              className="header__user-name"
+              onClick={() => {
+                navigate("/profile");
+              }}
+            >
+              {currentUser.name || "Guest"}
+            </button>
             <div className="header__avatar-container">
               {currentUser.avatar ? (
                 <img

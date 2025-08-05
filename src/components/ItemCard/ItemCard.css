@@ -22,3 +22,27 @@
   width: 100%;
   border-radius: 16px;
 }
+
+.card__like-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 24px;
+  height: 24px;
+  background-image: url(../../assets/like-btn.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+}
+
+.card__like-btn_active {
+  background-image: url(../../assets/like-btn-active.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}

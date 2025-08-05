@@ -20,6 +20,7 @@ import { addItem, getItems } from "../../utils/api";
 import { checkResponse } from "../../utils/api";
 import { baseUrl } from "../../utils/api";
 import { addCardLike, removeCardLike } from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [WeatherData, setWeatherData] = useState({
@@ -38,6 +39,8 @@ function App() {
   const [itemToDelete, setItemToDelete] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleCurrentUserChange = (userData) => {
     setCurrentUser({
@@ -77,7 +80,8 @@ function App() {
     setIsDeleteModalOpen(false);
   };
 
-  const handleAddItemModalSubmit = ({ name, imageUrl, weather }) => {
+  const handleAddItemModalSubmit = (e, { name, imageUrl, weather }) => {
+    e.preventDefault();
     addItem({ name, link: imageUrl, weather })
       .then((newItem) => {
         setClothingItems([...clothingItems, newItem]);
@@ -130,6 +134,12 @@ function App() {
             );
           })
           .catch((err) => console.log(err));
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -201,6 +211,8 @@ function App() {
               onLogin={() => setActiveModal("login")}
               onRegister={() => setActiveModal("register")}
               onClose={closeActiveModal}
+              navigate={navigate}
+              isLoggedIn={isLoggedIn}
             />
             <LoginModal
               isOpen={activeModal === "login"}
@@ -232,6 +244,9 @@ function App() {
                     onCardClick={handleCardClick}
                     onModalOpen={handleModalOpen}
                     onlikeClick={handleCardLike}
+                    onSignOut={handleSignOut}
+                    isLoggedIn={isLoggedIn}
+                    onEditProfileClick={() => handleModalOpen("edit-profile")}
                   />
                 }
               />

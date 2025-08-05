@@ -3,7 +3,12 @@ import "./ClothesSection.css";
 import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function ClothesSection({ onCardClick, clothingItems, onlikeClick }) {
+function ClothesSection({
+  onCardClick,
+  clothingItems,
+  onlikeClick,
+  isLoggedIn,
+}) {
   const { currentUser } = useContext(CurrentUserContext);
 
   const filterItems = clothingItems.filter((item) => {
@@ -23,6 +28,8 @@ function ClothesSection({ onCardClick, clothingItems, onlikeClick }) {
             item={item}
             onCardClick={onCardClick}
             onlikeClick={onlikeClick}
+            isLiked={item.isLiked}
+            isLoggedIn={isLoggedIn}
           />
         ))}
       </ul>

@@ -3,12 +3,13 @@ import "./SideBar.css";
 import { useContext, useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function SideBar({ isOpen, onClose, onModalOpen }) {
+function SideBar({ onModalOpen, onSignOut }) {
   const { currentUser } = useContext(CurrentUserContext);
   const [editProfile, setEditProfile] = useState(false);
 
   const onEditProfileClick = () => {
     setEditProfile(true);
+    onModalOpen("editProfile");
   };
 
   const closeEditProfile = () => {
@@ -28,11 +29,11 @@ function SideBar({ isOpen, onClose, onModalOpen }) {
       <div className="sidebar__buttons">
         <button
           className="sidebar__EditProfileBtn"
-          onClick={() => onModalOpen("edit-profile")}
+          onClick={onEditProfileClick}
         >
           Change profile data
         </button>
-        <button className="sidebar__logout-btn" onClick={closeEditProfile}>
+        <button className="sidebar__logout-btn" onClick={onSignOut}>
           Logout
         </button>
       </div>
