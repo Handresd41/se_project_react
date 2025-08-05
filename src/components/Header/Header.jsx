@@ -54,14 +54,11 @@ function Header({
             + Add Clothes
           </button>
           <div className="header__user-container">
-            <button
-              className="header__user-name"
-              onClick={() => {
-                navigate("/profile");
-              }}
-            >
-              {currentUser.name || "Guest"}
-            </button>
+            <Link to="/profile" className="header__profile-link">
+              <p className="header__username">
+                {currentUser.name ? currentUser.name : "User Name"}
+              </p>
+            </Link>
             <div className="header__avatar-container">
               {currentUser.avatar ? (
                 <img
