@@ -19,7 +19,7 @@ This template provides a minimal setup to get React working in Vite with HMR and
 ### link to Github Page:
 
 ("https://github.com/Handresd41/se_project_react.git")
-("https://github.com/tripleten-com/se_project_express.git")
+("https://github.com/Handresd41/se_project_express.git")
 
 Currently, two official plugins are available:
 
