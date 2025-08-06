@@ -22,7 +22,7 @@ import { baseUrl } from "../../utils/api";
 import { addCardLike, removeCardLike } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { use } from "react";
-import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
