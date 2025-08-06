@@ -3,7 +3,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./RegisterModal.css";
 import { useState } from "react";
 
-export default function RegisterModal({ onClose, isOpen }) {
+export default function RegisterModal({ onClose, isOpen, onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -28,11 +28,17 @@ export default function RegisterModal({ onClose, isOpen }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ email, password, name, avatar });
-    register({ name, avatar, email, password }).then((res) => {
-      if (res.data) {
-        onClose();
-      }
-    });
+
+    register({ name, avatar, email, password })
+      .then((res) => {
+        if (res.data) {
+          onRegister(res.data);
+          onClose();
+        }
+      })
+      .catch((err) => {
+        console.error("Registration error:", err);
+      });
   };
 
   return (

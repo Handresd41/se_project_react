@@ -1,15 +1,15 @@
 import "./ItemCard.css";
 
-function ItemCard({ item, onCardClick, onlikeClick }) {
+function ItemCard({ item, onCardClick, onLikeClick }) {
   const handleCardClick = () => {
     onCardClick(item);
   };
 
   const handleLike = () => {
     if (item.isLiked) {
-      onlikeClick(item._id, "remove");
+      onLikeClick(item._id, false);
     } else {
-      onlikeClick(item._id, "add");
+      onLikeClick(item._id, true);
     }
   };
 

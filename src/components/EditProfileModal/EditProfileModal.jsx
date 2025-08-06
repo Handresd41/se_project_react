@@ -8,8 +8,9 @@ function EditProfileModal({ isOpen, onClose, onSubmit }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    onSubmit(formData);
+    const name = event.target.name.value;
+    const avatar = event.target.avatar.value;
+    onSubmit({ name, avatar });
   };
 
   return (

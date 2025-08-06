@@ -21,9 +21,11 @@ import { checkResponse } from "../../utils/api";
 import { baseUrl } from "../../utils/api";
 import { addCardLike, removeCardLike } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import { use } from "react";
+import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
-  const [WeatherData, setWeatherData] = useState({
+  const [weatherData, setWeatherData] = useState({
     type: "",
     temp: { F: 999, C: 999 },
     city: "",
@@ -109,7 +111,29 @@ function App() {
 
   const handleLogin = (token) => {
     localStorage.setItem("jwt", token);
-    closeActiveModal();
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/users/me`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const userData = await checkResponse(response);
+        setCurrentUser({
+          name: userData.name || "",
+          avatar: userData.avatar || "",
+          email: userData.email || "",
+          _id: userData._id || "",
+        });
+        setIsLoggedIn(true);
+        closeActiveModal();
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUserData();
   };
 
   const handleRegister = (token) => {
@@ -207,7 +231,7 @@ function App() {
           <div className="page__content">
             <Header
               handleAddClick={handleAddClick}
-              weatherData={WeatherData}
+              weatherData={weatherData}
               onLogin={() => setActiveModal("login")}
               onRegister={() => setActiveModal("register")}
               onClose={closeActiveModal}
@@ -230,24 +254,28 @@ function App() {
                 path="/"
                 element={
                   <Main
-                    WeatherData={WeatherData}
+                    WeatherData={weatherData}
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
+                    onCardLike={handleCardLike}
                   />
                 }
               />
               <Route
                 path="/profile"
                 element={
-                  <Profile
-                    clothingItems={clothingItems}
-                    onCardClick={handleCardClick}
-                    onModalOpen={handleModalOpen}
-                    onlikeClick={handleCardLike}
-                    onSignOut={handleSignOut}
-                    isLoggedIn={isLoggedIn}
-                    onEditProfileClick={() => handleModalOpen("edit-profile")}
-                  />
+                  <ProtectedRoute>
+                    <Profile
+                      clothingItems={clothingItems}
+                      onCardClick={handleCardClick}
+                      onModalOpen={handleModalOpen}
+                      onlikeClick={handleCardLike}
+                      onSignOut={handleSignOut}
+                      isLoggedIn={isLoggedIn}
+                      onEditProfileClick={() => handleModalOpen("edit-profile")}
+                      onAddItem={handleAddClick}
+                    />
+                  </ProtectedRoute>
                 }
               />
             </Routes>

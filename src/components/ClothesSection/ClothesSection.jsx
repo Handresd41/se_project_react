@@ -6,8 +6,9 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 function ClothesSection({
   onCardClick,
   clothingItems,
-  onlikeClick,
+  onLikeClick,
   isLoggedIn,
+  onAddItem,
 }) {
   const { currentUser } = useContext(CurrentUserContext);
 
@@ -19,7 +20,9 @@ function ClothesSection({
     <div className="clothes-section">
       <div className="clothes__header">
         <p className="clothes__title">Your Items</p>
-        <button className="clothes__add-btn">+ Add new</button>
+        <button className="clothes__add-btn" onClick={onAddItem}>
+          + Add new
+        </button>
       </div>
       <ul className="clothes-section__list">
         {filterItems.map((item) => (
@@ -27,7 +30,7 @@ function ClothesSection({
             key={item._id}
             item={item}
             onCardClick={onCardClick}
-            onlikeClick={onlikeClick}
+            onLikeClick={onLikeClick}
             isLiked={item.isLiked}
             isLoggedIn={isLoggedIn}
           />
