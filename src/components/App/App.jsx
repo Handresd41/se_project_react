@@ -22,6 +22,7 @@ import { baseUrl } from "../../utils/api";
 import { addCardLike, removeCardLike } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import { use } from "react";
+import { login, checkToken } from "../../utils/auth";
 import ProtectedRoute from "../../utils/ProtectedRoute/ProtectedRoute";
 
 function App() {
@@ -84,7 +85,8 @@ function App() {
 
   const handleAddItemModalSubmit = (e, { name, imageUrl, weather }) => {
     e.preventDefault();
-    addItem({ name, link: imageUrl, weather })
+    const token = localStorage.getItem("jwt");
+    addItem({ name, link: imageUrl, weather }, token)
       .then((newItem) => {
         setClothingItems([...clothingItems, newItem]);
         closeActiveModal();
@@ -113,13 +115,8 @@ function App() {
     localStorage.setItem("jwt", token);
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`${baseUrl}/users/me`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        login(token);
+        const response = await checkToken(token);
         const userData = await checkResponse(response);
         setCurrentUser({
           name: userData.name || "",
@@ -200,19 +197,14 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      fetch(`${baseUrl}/users/me`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      checkToken(token)
         .then(checkResponse)
         .then((userData) => {
           setCurrentUser({
             name: userData.name || "",
             avatar: userData.avatar || "",
             email: userData.email || "",
+            _id: userData._id || "",
           });
           setIsLoggedIn(true);
         })
