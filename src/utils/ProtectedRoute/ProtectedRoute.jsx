@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children, isLoggedIn }) => {
   if (isLoggedIn) {
     return children;
   } else {
-    navigate("/login");
+    navigate("/");
     return null;
   }
 };

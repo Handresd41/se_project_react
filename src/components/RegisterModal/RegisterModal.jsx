@@ -3,7 +3,12 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./RegisterModal.css";
 import { useState } from "react";
 
-export default function RegisterModal({ onClose, isOpen, onRegister }) {
+export default function RegisterModal({
+  onClose,
+  isOpen,
+  onRegister,
+  onLogin,
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -49,50 +54,60 @@ export default function RegisterModal({ onClose, isOpen, onRegister }) {
       buttonText="Next"
       onSubmit={handleSubmit}
     >
-      <label htmlFor="email" className="modal__label">
+      <label htmlFor="register-email" className="modal__label">
         Email*{" "}
         <input
           type="email"
           className="modal__input"
-          id="email"
+          id="register-email"
           placeholder="Email"
           onChange={handleEmailChange}
           value={email}
         />
       </label>
-      <label htmlFor="password" className="modal__label">
+      <label htmlFor="register-password" className="modal__label">
         Password*{" "}
         <input
           type="password"
           className="modal__input"
-          id="password"
+          id="register-password"
           placeholder="Password"
           onChange={handlePasswordChange}
           value={password}
         />
       </label>
-      <label htmlFor="name" className="modal__label">
+      <label htmlFor="register-name" className="modal__label">
         Name{" "}
         <input
           type="text"
           className="modal__input"
-          id="name"
+          id="register-name"
           placeholder="Name"
           onChange={handleNameChange}
           value={name}
         />
       </label>
-      <label htmlFor="avatar" className="modal__label">
+      <label htmlFor="register-avatar" className="modal__label">
         Avatar URL{" "}
         <input
           type="url"
           className="modal__input"
-          id="avatar"
+          id="register-avatar"
           placeholder="Avatar Url"
           onChange={handleImageUrl}
           value={avatar}
         />
       </label>
+      <button
+        type="button"
+        className="modal__button"
+        disabled={!email || !password}
+        onClick={() => {
+          onLogin();
+        }}
+      >
+        or log in
+      </button>
     </ModalWithForm>
   );
 }

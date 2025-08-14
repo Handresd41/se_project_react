@@ -3,7 +3,7 @@ import "./LoginModal.css";
 import { useState } from "react";
 import { login } from "../../utils/auth";
 
-export default function LoginModal({ onClose, isOpen, onLogin }) {
+export default function LoginModal({ onClose, isOpen, onLogin, onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,7 +20,7 @@ export default function LoginModal({ onClose, isOpen, onLogin }) {
     console.log({ email, password });
     login({ email, password }).then((res) => {
       if (res.token) {
-        onLogin(res.token);
+        onLogin({ email, password, token: res.token });
         onClose();
       }
     });
@@ -34,28 +34,38 @@ export default function LoginModal({ onClose, isOpen, onLogin }) {
       buttonText="Log In"
       onSubmit={handleSubmit}
     >
-      <label htmlFor="email" className="modal__label">
+      <label htmlFor="login-email" className="modal__label">
         Email{" "}
         <input
           type="email"
           className="modal__input"
-          id="email"
+          id="login-email"
           placeholder="Email"
           onChange={handleEmailChange}
           value={email}
         />
       </label>
-      <label htmlFor="password" className="modal__label">
+      <label htmlFor="login-password" className="modal__label">
         Password{" "}
         <input
           type="password"
           className="modal__input"
-          id="password"
+          id="login-password"
           placeholder="Password"
           onChange={handlePasswordChange}
           value={password}
         />
       </label>
+      <button
+        type="button"
+        className="modal__login-button"
+        disabled={!email || !password}
+        onClick={() => {
+          onRegister();
+        }}
+      >
+        or sign up
+      </button>
     </ModalWithForm>
   );
 }

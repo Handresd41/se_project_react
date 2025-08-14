@@ -4,7 +4,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function ItemModal({ activeModal, onClose, card, onDeleteClick }) {
   const { currentUser } = useContext(CurrentUserContext);
-  const isOwn = currentUser && currentUser._id === card.owner._id;
+  const isOwn = currentUser && card.owner && currentUser._id === card.owner._id;
 
   return (
     <div className={`modal ${activeModal === "preview" && "modal_opened"}`}>

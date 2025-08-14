@@ -21,7 +21,6 @@ import { checkResponse } from "../../utils/api";
 import { baseUrl } from "../../utils/api";
 import { addCardLike, removeCardLike } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
-import { use } from "react";
 import { login, checkToken } from "../../utils/auth";
 import ProtectedRoute from "../../utils/ProtectedRoute/ProtectedRoute";
 
@@ -83,15 +82,18 @@ function App() {
     setIsDeleteModalOpen(false);
   };
 
-  const handleAddItemModalSubmit = (e, { name, imageUrl, weather }) => {
-    e.preventDefault();
+  const handleAddItemModalSubmit = async (e, { name, imageUrl, weather }) => {
+    console.log("Sending data:", { name, link: imageUrl, weather });
     const token = localStorage.getItem("jwt");
-    addItem({ name, link: imageUrl, weather }, token)
-      .then((newItem) => {
-        setClothingItems([...clothingItems, newItem]);
-        closeActiveModal();
-      })
-      .catch(console.error);
+    console.log("Token:", token);
+    e.preventDefault();
+    try {
+      const newItem = await addItem({ name, link: imageUrl, weather }, token);
+      setClothingItems([...clothingItems, newItem]);
+      closeActiveModal();
+    } catch (error) {
+      console.error("Error adding item:", error);
+    }
   };
 
   const handleDeleteItemModal = (selectedCard) => {
@@ -111,31 +113,42 @@ function App() {
     );
   };
 
-  const handleLogin = (token) => {
-    localStorage.setItem("jwt", token);
-    const fetchUserData = async () => {
-      try {
-        login(token);
-        const response = await checkToken(token);
-        const userData = await checkResponse(response);
-        setCurrentUser({
-          name: userData.name || "",
-          avatar: userData.avatar || "",
-          email: userData.email || "",
-          _id: userData._id || "",
-        });
-        setIsLoggedIn(true);
-        closeActiveModal();
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    fetchUserData();
+  const handleLogin = async ({ email, password }) => {
+    try {
+      const response = await login({ email, password });
+      localStorage.setItem("jwt", response.token);
+      const token = await checkToken(response.token);
+      const userData = token.data;
+      setCurrentUser({
+        name: userData.name || "",
+        avatar: userData.avatar || "",
+        email: userData.email || "",
+        _id: userData._id || "",
+      });
+      setIsLoggedIn(true);
+      closeActiveModal();
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
-  const handleRegister = (token) => {
-    localStorage.setItem("jwt", token);
-    closeActiveModal();
+  const handleRegister = async (token) => {
+    try {
+      localStorage.setItem("jwt", token);
+      const tokenData = await checkToken(token);
+      const userData = tokenData.data || {};
+      setCurrentUser({
+        name: userData.name || "",
+        avatar: userData.avatar || "",
+        email: userData.email || "",
+        _id: userData._id || "",
+      });
+      navigate("/profile");
+      setIsLoggedIn(true);
+      closeActiveModal();
+    } catch (error) {
+      console.error("Registration error:", error);
+    }
   };
 
   const handleCardLike = ({ id, isLiked }) => {
@@ -174,8 +187,8 @@ function App() {
 
   useEffect(() => {
     getItems()
-      .then(({ data }) => {
-        setClothingItems(data && Array.isArray(data) ? data : []);
+      .then((response) => {
+        setClothingItems(Array.isArray(response) ? response : []);
       })
       .catch(console.error);
   }, []);
@@ -198,8 +211,8 @@ function App() {
     const token = localStorage.getItem("jwt");
     if (token) {
       checkToken(token)
-        .then(checkResponse)
-        .then((userData) => {
+        .then((tokenData) => {
+          const userData = tokenData.data || {};
           setCurrentUser({
             name: userData.name || "",
             avatar: userData.avatar || "",
@@ -208,7 +221,11 @@ function App() {
           });
           setIsLoggedIn(true);
         })
-        .catch(console.error);
+        .catch((error) => {
+          console.error("Token validation error:", error);
+          setIsLoggedIn(false);
+          localStorage.removeItem("jwt");
+        });
     }
   }, []);
 
@@ -234,9 +251,11 @@ function App() {
               isOpen={activeModal === "login"}
               onClose={closeActiveModal}
               onLogin={handleLogin}
+              onRegister={() => setActiveModal("register")}
             />
             <RegisterModal
               isOpen={activeModal === "register"}
+              onLogin={() => setActiveModal("login")}
               onClose={closeActiveModal}
               onRegister={handleRegister}
             />
@@ -246,7 +265,7 @@ function App() {
                 path="/"
                 element={
                   <Main
-                    WeatherData={weatherData}
+                    weatherData={weatherData}
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
                     onCardLike={handleCardLike}
