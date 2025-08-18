@@ -49,6 +49,17 @@ function removeCardLike(id, token) {
   }).then(checkResponse);
 }
 
+function updateProfile({ name, avatar }, token) {
+  return fetch(`${baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name, avatar }),
+  }).then(checkResponse);
+}
+
 export {
   checkResponse,
   getItems,
@@ -56,5 +67,6 @@ export {
   addItem,
   addCardLike,
   removeCardLike,
+  updateProfile,
   baseUrl,
 };

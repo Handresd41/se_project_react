@@ -9,7 +9,7 @@ function SideBar({ onModalOpen, onSignOut }) {
 
   const onEditProfileClick = () => {
     setEditProfile(true);
-    onModalOpen("editProfile");
+    onModalOpen("edit-profile");
   };
 
   const closeEditProfile = () => {

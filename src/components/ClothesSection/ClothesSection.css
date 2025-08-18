@@ -17,6 +17,10 @@
   border: none;
 }
 
+.clothes__add-btn:hover {
+  cursor: pointer;
+}
+
 .clothes-section__list {
   display: flex;
   flex-wrap: wrap;

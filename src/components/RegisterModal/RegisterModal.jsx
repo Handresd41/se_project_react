@@ -36,8 +36,8 @@ export default function RegisterModal({
 
     register({ name, avatar, email, password })
       .then((res) => {
-        if (res.data) {
-          onRegister(res.data);
+        if (res.token) {
+          onRegister(res.token);
           onClose();
         }
       })
