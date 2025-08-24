@@ -86,7 +86,10 @@ function App() {
     const token = localStorage.getItem("jwt");
     e.preventDefault();
     try {
-      const newItem = await addItem({ name, imageUrl, weather }, token);
+      console.log("data being sent:", { name, link: imageUrl, weather });
+      console.log("imageUrl:", imageUrl);
+      console.log("token:", token);
+      const newItem = await addItem({ name, link: imageUrl, weather }, token);
       setClothingItems([...clothingItems, newItem]);
       closeActiveModal();
     } catch (error) {
