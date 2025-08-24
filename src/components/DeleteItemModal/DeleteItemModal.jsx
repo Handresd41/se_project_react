@@ -3,7 +3,8 @@ import { deleteItem } from "../../utils/api";
 
 function DeleteItemModal({ onClose, isOpen, itemToDelete, onDeleteSuccess }) {
   const handleDelete = () => {
-    deleteItem(itemToDelete._id)
+    const token = localStorage.getItem("jwt");
+    deleteItem(itemToDelete._id, token)
       .then(() => {
         onDeleteSuccess(itemToDelete._id);
         onClose();

@@ -17,15 +17,8 @@ export default function LoginModal({ onClose, isOpen, onLogin, onRegister }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ email, password });
-    login({ email, password }).then((res) => {
-      if (res.token) {
-        onLogin({ email, password, token: res.token });
-        onClose();
-      }
-    });
+    onLogin({ email, password });
   };
-
   return (
     <ModalWithForm
       title="Log in"

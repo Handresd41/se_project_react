@@ -8,56 +8,62 @@ function checkResponse(response) {
 }
 
 function getItems() {
-  return fetch(`${baseUrl}/items`).then(checkResponse);
+  return request(`${baseUrl}/items`, {
+    method: "GET",
+  });
 }
 
 function deleteItem(id, token) {
-  return fetch(`${baseUrl}/items/${id}`, {
+  return request(`${baseUrl}/items/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }).then(checkResponse);
+  });
 }
 
 function addItem(item, token) {
-  return fetch(`${baseUrl}/items`, {
+  return request(`${baseUrl}/items`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(item),
-  }).then(checkResponse);
+  });
 }
 
 function addCardLike(id, token) {
-  return fetch(`${baseUrl}/items/${id}/likes`, {
+  return request(`${baseUrl}/items/${id}/likes`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }).then(checkResponse);
+  });
 }
 
 function removeCardLike(id, token) {
-  return fetch(`${baseUrl}/items/${id}/likes`, {
+  return request(`${baseUrl}/items/${id}/likes`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  }).then(checkResponse);
+  });
 }
 
 function updateProfile({ name, avatar }, token) {
-  return fetch(`${baseUrl}/users/me`, {
+  return request(`${baseUrl}/users/me`, {
     method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ name, avatar }),
-  }).then(checkResponse);
+  });
+}
+
+function request(url, options) {
+  return fetch(url, options).then(checkResponse);
 }
 
 export {
@@ -68,5 +74,6 @@ export {
   addCardLike,
   removeCardLike,
   updateProfile,
+  request,
   baseUrl,
 };

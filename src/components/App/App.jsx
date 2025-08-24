@@ -49,7 +49,7 @@ function App() {
       name: userData.name || "",
       avatar: userData.avatar || "",
       email: userData.email || "",
-      _id: userData._id || "",
+      _id: userData._id || currentUser._id,
     });
     setIsLoggedIn(true);
     closeActiveModal();
@@ -83,12 +83,10 @@ function App() {
   };
 
   const handleAddItemModalSubmit = async (e, { name, imageUrl, weather }) => {
-    console.log("Sending data:", { name, link: imageUrl, weather });
     const token = localStorage.getItem("jwt");
-    console.log("Token:", token);
     e.preventDefault();
     try {
-      const newItem = await addItem({ name, link: imageUrl, weather }, token);
+      const newItem = await addItem({ name, imageUrl, weather }, token);
       setClothingItems([...clothingItems, newItem]);
       closeActiveModal();
     } catch (error) {
@@ -190,7 +188,10 @@ function App() {
       .then((response) => {
         setClothingItems(Array.isArray(response) ? response : []);
       })
-      .catch(console.error);
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+        setClothingItems([]);
+      });
   }, []);
 
   useEffect(() => {
