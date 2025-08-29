@@ -85,11 +85,9 @@ function App() {
   const handleAddItemModalSubmit = async (e, { name, imageUrl, weather }) => {
     const token = localStorage.getItem("jwt");
     e.preventDefault();
+
     try {
-      console.log("data being sent:", { name, link: imageUrl, weather });
-      console.log("imageUrl:", imageUrl);
-      console.log("token:", token);
-      const newItem = await addItem({ name, link: imageUrl, weather }, token);
+      const newItem = await addItem({ name, imageUrl, weather }, token);
       setClothingItems([...clothingItems, newItem]);
       closeActiveModal();
     } catch (error) {

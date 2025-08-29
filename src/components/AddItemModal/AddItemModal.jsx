@@ -16,6 +16,7 @@ export default function AddItemModal({
   };
 
   const handleImageUrl = (e) => {
+    console.log("Input value:", e.target.value);
     setImageUrl(e.target.value);
   };
 
@@ -25,10 +26,11 @@ export default function AddItemModal({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Form data before submit:", { name, imageUrl, weather });
     onAddItemModalSubmit(e, {
-      name: name,
-      imageUrl: imageUrl,
-      weather: weather,
+      name,
+      imageUrl,
+      weather,
     });
   };
 

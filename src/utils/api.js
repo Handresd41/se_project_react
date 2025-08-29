@@ -4,7 +4,10 @@ function checkResponse(response) {
   if (response.ok) {
     return response.json();
   }
-  return Promise.reject(`Error: ${response.status}`);
+  return response.text().then((errorText) => {
+    console.log("Server error response:", errorText);
+    return Promise.reject(`Error: ${response.status} - ${errorText}`);
+  });
 }
 
 function getItems() {
