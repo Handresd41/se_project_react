@@ -88,7 +88,8 @@ function App() {
 
     try {
       const newItem = await addItem({ name, imageUrl, weather }, token);
-      setClothingItems([...clothingItems, newItem]);
+
+      setClothingItems([newItem.data, ...clothingItems]);
       closeActiveModal();
     } catch (error) {
       console.error("Error adding item:", error);
@@ -156,14 +157,14 @@ function App() {
       ? addCardLike(id, token)
           .then((updatedCard) => {
             setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
+              cards.map((item) => (item._id === id ? updatedCard.data : item))
             );
           })
           .catch((err) => console.log(err))
       : removeCardLike(id, token)
           .then((updatedCard) => {
             setClothingItems((cards) =>
-              cards.map((item) => (item._id === id ? updatedCard : item))
+              cards.map((item) => (item._id === id ? updatedCard.data : item))
             );
           })
           .catch((err) => console.log(err));
@@ -261,7 +262,6 @@ function App() {
               onClose={closeActiveModal}
               onRegister={handleRegister}
             />
-
             <Routes>
               <Route
                 path="/"
@@ -270,7 +270,7 @@ function App() {
                     weatherData={weatherData}
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
-                    onCardLike={handleCardLike}
+                    onlikeClick={handleCardLike}
                   />
                 }
               />
@@ -292,14 +292,12 @@ function App() {
                 }
               />
             </Routes>
-
             <EditProfileModal
               isOpen={activeModal === "edit-profile"}
               onClose={closeActiveModal}
               title="Edit Profile"
               onSubmit={handleCurrentUserChange}
             />
-
             <Footer />
           </div>
           <AddItemModal

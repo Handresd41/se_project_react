@@ -6,7 +6,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 function ClothesSection({
   onCardClick,
   clothingItems,
-  onLikeClick,
+  onlikeClick,
   isLoggedIn,
   onAddItem,
 }) {
@@ -30,7 +30,7 @@ function ClothesSection({
             key={item._id}
             item={item}
             onCardClick={onCardClick}
-            onLikeClick={onLikeClick}
+            onlikeClick={onlikeClick}
             isLiked={item.isLiked}
             isLoggedIn={isLoggedIn}
           />
