@@ -6,7 +6,7 @@ function Profile({
   onCardClick,
   clothingItems,
   onModalOpen,
-  onLikeClick,
+  onlikeClick,
   onSignOut,
   isLoggedIn,
   onAddItem,
@@ -25,7 +25,7 @@ function Profile({
           onCardClick={onCardClick}
           clothingItems={clothingItems}
           onAddItem={onAddItem}
-          onLikeClick={onLikeClick}
+          onlikeClick={onlikeClick}
         />
       </section>
     </div>
