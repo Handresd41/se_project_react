@@ -110,3 +110,8 @@ export const coordinates = {
 };
 
 export const APIkey = "aa539cdf720080d55704370fb9023d85";
+
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.gcp-demon.jumpingcrab.com"
+    : "http://localhost:3001";

@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3001";
+import { baseUrl } from "./constants.js";
 import { checkResponse } from "./api";
 
 function login({ email, password }) {
