@@ -9,7 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "npm run build && scp -r ./dist/* handres1223@gcp-demon.jumpingcrab.com:/home/handres1223/frontend"
+    "deploy": "npm run build && scp -r ./dist/* andreshermen1012@gcp-demon.jumpingcrab.com:/home/andreshermen1012/frontend"
   },
   "dependencies": {
     "react": "^18.3.1",
